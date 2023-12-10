@@ -1,24 +1,24 @@
-CC=gcc
-TARGET_EXEC := game_of_life
+CC := gcc
+SRC_DIR := ./src
 BUILD_DIR := ./build
-SRC_DIRS := ./src
-SRCS := $(shell find $(SRC_DIRS) -name '*.cpp' -or -name '*.c' -or -name '*.s')
-OBJS := $(SRCS:%=$(BUILD_DIR)/%.o)
+CFLAGS := -MMD -MP -Wall -O3 -Wextra -pedantic -std=c99
+SRCS := $(wildcard $(SRC_DIR)/*.c)
+OBJS := $(patsubst $(SRC_DIR)/%.c, $(BUILD_DIR)/src/%.o, $(SRCS))
 DEPS := $(OBJS:.o=.d)
-INC_DIRS := $(shell find $(SRC_DIRS) -type d)
-INC_FLAGS := $(addprefix -I,$(INC_DIRS))
-CFLAGS := $(INC_FLAGS) -MMD -MP -Wall -O3 -Wextra -pedantic -std=c99	
+EXES := $(patsubst $(SRC_DIR)/%.c, $(BUILD_DIR)/%, $(SRCS))
 
-$(BUILD_DIR)/$(TARGET_EXEC): $(OBJS)
-	$(CC) $(OBJS) -o $@ $(LDFLAGS)
-	cp $(BUILD_DIR)/$(TARGET_EXEC) $(TARGET_EXEC)
+all: $(EXES)
 
-$(BUILD_DIR)/%.c.o: %.c
-	mkdir -p $(dir $@)
-	$(CC) $(CFLAGS) $(CFLAGS) -c $< -o $@ 
+$(shell mkdir -p $(BUILD_DIR)/src)
+
+$(BUILD_DIR)/%: $(BUILD_DIR)/src/%.o
+	$(CC) $(CFLAGS) -o $@ $^
+
+$(BUILD_DIR)/src/%.o: $(SRC_DIR)/%.c
+	$(CC) $(CFLAGS) -c -o $@ $<
 
 .PHONY: clean
 clean:
-	rm -r $(BUILD_DIR)
+	rm -rf $(BUILD_DIR)
 
 -include $(DEPS)
