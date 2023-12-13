@@ -41,6 +41,10 @@ int isValid(char *s) {
 
 int main() {
   FILE *fp = fopen("../res/input.txt", "r");
+  if (fp == NULL) {
+    perror("Error: can't open the file");
+    return 1;
+  }
   size_t size = 0;
   int len = 0, sum = 0;
   char *s = NULL;
