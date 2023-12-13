@@ -9,27 +9,19 @@ bool check(char *str, int size) {
   const int R_MAX = 12;
   const int G_MAX = 13;
   const int B_MAX = 14;
+  str[strlen(str) - 1] = '\0';
 
-  // TODO: Fix this! This is horrible!
-  //  NASTY CODE! Look away!
-  if ((strcmp(str, "red\n") == 0 || strcmp(str, "red,") == 0 ||
-       strcmp(str, "red;") == 0) &&
-      size <= R_MAX) {
+  if (strcmp(str, "red") == 0 && size <= R_MAX) {
     return true;
   }
 
-  if ((strcmp(str, "green\n") == 0 || strcmp(str, "green,") == 0 ||
-       strcmp(str, "green;") == 0) &&
-      size <= G_MAX) {
+  if (strcmp(str, "green") == 0 && size <= G_MAX) {
     return true;
   }
 
-  if ((strcmp(str, "blue\n") == 0 || strcmp(str, "blue,") == 0 ||
-       strcmp(str, "blue;") == 0) &&
-      size <= B_MAX) {
+  if (strcmp(str, "blue") == 0 && size <= B_MAX) {
     return true;
   }
-
   return false;
 }
 
