@@ -10,6 +10,8 @@ bool check(char *str, int size) {
   const int G_MAX = 13;
   const int B_MAX = 14;
 
+  // TODO: Fix this! This is horrible!
+  //  NASTY CODE! Look away!
   if ((strcmp(str, "red\n") == 0 || strcmp(str, "red,") == 0 ||
        strcmp(str, "red;") == 0) &&
       size <= R_MAX) {
